@@ -73,7 +73,7 @@ def run_code_in_container(image_id: str, code: str):
             volumes={
                 os.path.abspath(temp_code_dir): {"bind": "/app", "mode": "rw"}
             },  # Mount the temp code directory
-            working_dir="/app",  # Working directory inside the container
+            working_dir="/app",
             detach=True,  # Run the container in detached mode
         )
 

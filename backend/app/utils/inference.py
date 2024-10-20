@@ -60,5 +60,5 @@ def get_optimized_codebase_openai(codebase: str):
     pass
 
 
-def get_optimized_codebase_nebius(codebase: str):
+def get_optimized_codebase_nebius(codebase: str, model_id: str):
     pass

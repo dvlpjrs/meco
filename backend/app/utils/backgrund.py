@@ -8,7 +8,7 @@ from app.utils.function_extractor import (
     fetch_function_and_linked_sub_functions,
 )
 from app.utils.docker import run_code_in_container
-from app.utils.inference import get_initial_codebase
+from app.utils.inference import get_initial_codebase, get_optimized_codebase_nebius
 from app.core.mongo_session import get_async_session
 
 
@@ -54,8 +54,12 @@ async def evaluate_functions(job_id: str, function_ids: list[str]):
     for function_id in function_ids:
         function = await fetch_function_and_linked_sub_functions(job_id, function_id)
         initial_codebase = get_initial_codebase(function_body=json.dumps(function))
-        print(initial_codebase)
-        results = run_code_in_container(
-            image_id="base_image", code=initial_codebase["main_code"]
+        # results = run_code_in_container(
+        #     image_id="base_image", code=initial_codebase["main_code"]
+        # )
+        open("temp_code_dir/main11.py", "w").write(initial_codebase["main_code"])
+        t = get_optimized_codebase_nebius(
+            initial_codebase["main_code"], "Qwen/Qwen2.5-Coder-7B-Instruct"
         )
+        results = run_code_in_container(image_id="base_image", code=t)
         print(results)
