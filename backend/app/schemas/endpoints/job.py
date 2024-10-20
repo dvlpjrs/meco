@@ -4,16 +4,28 @@ from typing import Literal
 
 class GetJobResponse(BaseModel):
     status: Literal[
-        "pending", "running_function", "running_evolution", "failed", "success"
+        "pending", "extracting_functions", "running_evolution", "failed", "success"
     ]
 
 
+class FunctionArg(BaseModel):
+    name: str
+    type: str | None = None
+
+
+class FunctionInfo(BaseModel):
+    name: str
+    id: str
+    code: str
+    args: list[FunctionArg] = []
+
+
 class GetJobFunctionResponse(BaseModel):
-    function_names: list[str]
+    functions: list[FunctionInfo]
 
 
 class StartJobFunctionEvaluationRequest(BaseModel):
-    function_names: list[str]
+    function_ids: list[str]
 
 
 class StartJobFunctionEvaluationResponse(BaseModel):
